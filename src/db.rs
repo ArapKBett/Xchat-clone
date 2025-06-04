@@ -1,4 +1,4 @@
-use sqlx::{SqlitePool, FromRow};
+use sqlx::SqlitePool;
 use chrono::{DateTime, Utc};
 use crate::models::{User, Message, File};
 
