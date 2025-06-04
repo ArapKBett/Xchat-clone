@@ -1,7 +1,7 @@
-use actix_web::{App, HttpServer, middleware::Logger};
+use actix_web::{web, App, HttpServer, middleware::Logger};
 use sqlx::SqlitePool;
-use xchat_clone::{db, crypto::Crypto, routes};
 use std::fs;
+use crate::{db, crypto::Crypto, routes};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -26,4 +26,4 @@ async fn main() -> std::io::Result<()> {
     .bind("0.0.0.0:8080")?
     .run()
     .await
-}
+        }
