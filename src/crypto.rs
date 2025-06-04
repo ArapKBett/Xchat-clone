@@ -42,9 +42,10 @@ impl Crypto {
         String::from_utf8(plaintext).unwrap()
     }
 
+    #[allow(dead_code)]
     pub fn derive_shared_secret(&self, _secret_key: &SecretKey, _public_key: &PublicKey) -> [u8; 32] {
         // Simplified for demo; use proper ECDH in production
         let shared = [0u8; 32];
         shared
     }
-            }
+}
