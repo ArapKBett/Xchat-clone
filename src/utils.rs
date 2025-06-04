@@ -22,4 +22,4 @@ pub async fn save_file(mut payload: Multipart) -> Result<String, io::Error> {
         file_path = filepath;
     }
     Ok(file_path)
-                        }
+}
