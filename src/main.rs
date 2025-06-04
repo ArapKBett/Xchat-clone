@@ -1,10 +1,12 @@
 use actix_web::{App, HttpServer, middleware::Logger};
 use sqlx::SqlitePool;
 use xchat_clone::{db, crypto::Crypto, routes};
+use std::fs;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
+    fs::create_dir_all("/data/uploads").unwrap(); // Create persistent uploads directory
     let pool = db::init_db().await;
     let crypto = Crypto::new();
 
@@ -21,7 +23,7 @@ async fn main() -> std::io::Result<()> {
             .route("/", web::get().to(routes::serve_index))
             .service(actix_files::Files::new("/static", "./static").show_files_listing())
     })
-    .bind("127.0.0.1:8080")?
+    .bind("0.0.0.0:8080")?
     .run()
     .await
-      }
+}
