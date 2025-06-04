@@ -1,0 +1,16 @@
+app = "xchat-clone"
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[env]
+PORT = "8080"
+
+[http_service]
+internal_port = 8080
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+
+[[mounts]]
+source = "xchat_data"
+destination = "/data"
