@@ -10,14 +10,12 @@ mod models;
 mod webrtc;
 mod utils;
 
-use crate::{db, crypto::Crypto, routes};
-
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
     fs::create_dir_all("/data/uploads").unwrap(); // Create persistent uploads directory
     let pool = db::init_db().await;
-    let crypto = Crypto::new();
+    let crypto = crypto::Crypto::new();
 
     HttpServer::new(move || {
         App::new()
@@ -28,7 +26,7 @@ async fn main() -> std::io::Result<()> {
             .route("/message", web::post().to(routes::send_message))
             .route("/messages/{user_id}", web::get().to(routes::get_user_messages))
             .route("/upload", web::post().to(routes::upload_file))
-            .route("/signal", web::post().to(routes::signal))
+            .route("/signal", web::post().to(webrtc::signal))
             .route("/", web::get().to(routes::serve_index))
             .service(actix_files::Files::new("/static", "./static").show_files_listing())
     })
