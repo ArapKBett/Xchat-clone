@@ -12,7 +12,9 @@ mod utils;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
-    fs::create_dir_all("/data/uploads").unwrap(); // Create persistent uploads directory
+    if let Err(e) = fs::create_dir_all("/data/uploads") {
+        eprintln!("Failed to create /data/uploads: {}. Continuing without directory creation.", e);
+    }
     let pool = db::init_db().await;
     let crypto = crypto::Crypto::new();
 
