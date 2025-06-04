@@ -19,6 +19,7 @@ pub async fn create_user(pool: &SqlitePool, username: &str, public_key: &str) ->
     Ok(user)
 }
 
+#[allow(dead_code)]
 pub async fn get_user_by_id(pool: &SqlitePool, user_id: i32) -> Result<User, sqlx::Error> {
     let user = sqlx::query_as::<_, User>("SELECT * FROM users WHERE id = ?")
         .bind(user_id)
@@ -74,4 +75,4 @@ pub async fn save_file(
     .fetch_one(pool)
     .await?;
     Ok(file)
-    }
+}
