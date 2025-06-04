@@ -1,6 +1,15 @@
 use actix_web::{web, App, HttpServer, middleware::Logger};
 use sqlx::SqlitePool;
 use std::fs;
+
+// Declare modules
+mod db;
+mod crypto;
+mod routes;
+mod models;
+mod webrtc;
+mod utils;
+
 use crate::{db, crypto::Crypto, routes};
 
 #[actix_web::main]
@@ -26,4 +35,4 @@ async fn main() -> std::io::Result<()> {
     .bind("0.0.0.0:8080")?
     .run()
     .await
-        }
+}
