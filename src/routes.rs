@@ -4,7 +4,7 @@ use actix_multipart::Multipart;
 use sqlx::SqlitePool;
 use serde_json::Value;
 use chrono::{Duration, Utc};
-use crate::{db::{create_user, save_message, get_messages, get_user_by_id, save_file}, crypto::Crypto, utils};
+use crate::{db::{create_user, save_message, get_messages, save_file}, crypto::Crypto, utils, models::Message};
 
 pub async fn register_user(
     pool: web::Data<SqlitePool>,
@@ -67,7 +67,7 @@ pub async fn upload_file(
     data: web::Query<Value>,
 ) -> impl Responder {
     let message_id = data["message_id"].as_i64().unwrap_or_default() as i32;
-    match utils::save_file(payload, "uploads").await {
+    match utils::save_file(payload).await {
         Ok(file_path) => {
             let filename = file_path.split('/').last().unwrap_or("unknown");
             match save_file(pool.as_ref(), message_id, filename, &file_path).await {
@@ -81,4 +81,4 @@ pub async fn upload_file(
 
 pub async fn serve_index() -> impl Responder {
     NamedFile::open("static/index.html")
-                                                     }
+}
