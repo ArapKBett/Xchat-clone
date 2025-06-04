@@ -3,7 +3,7 @@ use chrono::{DateTime, Utc};
 use crate::models::{User, Message, File};
 
 pub async fn init_db() -> SqlitePool {
-    let pool = SqlitePool::connect("sqlite://xchat.db").await.unwrap();
+    let pool = SqlitePool::connect("sqlite:///data/xchat.db").await.unwrap();
     sqlx::migrate!("./migrations").run(&pool).await.unwrap();
     pool
 }
@@ -74,4 +74,4 @@ pub async fn save_file(
     .fetch_one(pool)
     .await?;
     Ok(file)
-      }
+    }
