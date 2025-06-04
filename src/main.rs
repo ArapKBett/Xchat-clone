@@ -1,5 +1,4 @@
 use actix_web::{web, App, HttpServer, middleware::Logger};
-use sqlx::SqlitePool;
 use std::fs;
 
 // Declare modules
