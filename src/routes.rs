@@ -12,7 +12,7 @@ pub async fn register_user(
     data: web::Json<Value>,
 ) -> impl Responder {
     let username = data["username"].as_str().unwrap_or_default();
-    let (secret_key, public_key) = crypto.generate_keypair();
+    let (_secret_key, public_key) = crypto.generate_keypair(); // Prefix with _ to suppress warning
     match create_user(pool.as_ref(), username, &public_key.to_string()).await {
         Ok(user) => HttpResponse::Ok().json(user),
         Err(_) => HttpResponse::BadRequest().body("Username already exists"),
