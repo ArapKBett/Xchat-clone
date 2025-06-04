@@ -1,9 +1,10 @@
 use secp256k1::{Secp256k1, SecretKey, PublicKey, rand::rngs::OsRng};
-use aes_gcm::{Aes256Gcm, Key, Nonce};
-use aes_gcm::aead::{Aead, NewAead};
+use aes_gcm::{Aes256Gcm, Key, Nonce, KeyInit};
+use aes_gcm::aead::Aead;
 use rand::Rng;
 use hex;
 
+#[derive(Clone)] // Added Clone derivation
 pub struct Crypto {
     secp: Secp256k1<secp256k1::All>,
 }
@@ -39,10 +40,9 @@ impl Crypto {
         String::from_utf8(plaintext).unwrap()
     }
 
-    pub fn derive_shared_secret(&self, secret_key: &SecretKey, public_key: &PublicKey) -> [u8; 32] {
+    pub fn derive_shared_secret(&self, _secret_key: &SecretKey, _public_key: &PublicKey) -> [u8; 32] {
         // Simplified for demo; use proper ECDH in production
-        let mut shared = [0u8; 32];
-        // TODO: Implement ECDH with secp256k1::ecdh
+        let shared = [0u8; 32];
         shared
     }
-          }
+    }
