@@ -10,7 +10,7 @@ pub async fn save_file(mut payload: Multipart) -> Result<String, io::Error> {
         let field = item.map_err(|e| io::Error::new(io::ErrorKind::Other, e.to_string()))?;
         let filename = field
             .content_disposition()
-            .map(|cd| cd.get_filename().map_or("unknown".to_string(), |name| name.to_string()))
+            .map(|cd| cd.get_filename().unwrap_or("unknown").to_string())
             .unwrap_or("unknown".to_string());
         let filepath = format!("/data/uploads/{}", filename);
         let mut f = fs::File::create(&filepath)?;
