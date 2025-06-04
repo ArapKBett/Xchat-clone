@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: xchat-clone
+    env: rust
+    plan: free
+    buildCommand: cargo build --release
+    startCommand: target/release/xchat-clone
+    envVars:
+      - key: PORT
+        value: 8080
+    disk:
+      name: xchat_data
+      mountPath: /data
+      sizeGB: 1
