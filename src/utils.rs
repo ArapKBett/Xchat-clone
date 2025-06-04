@@ -1,12 +1,12 @@
 use actix_multipart::Multipart;
-use futures_util::stream::StreamExt;
+use futures_util::StreamExt;
 use std::fs;
 use std::io::Write;
 use bytes::Bytes;
 
 pub async fn save_file(mut payload: Multipart) -> Result<String, std::io::Error> {
     let mut file_path = String::new();
-    while let Some(item) = payload.try_next().await? {
+    while let Some(item) = payload.next().await.transpose()? {
         let mut field = item;
         let content_disposition = field.content_disposition();
         let filename = content_disposition
